@@ -1,26 +1,462 @@
+/* ============================================================
+   globals.css — Premium Design System WebGIS GeoAI Morowali
+   ============================================================ */
 @import "tailwindcss";
+/* Note: Inter & JetBrains Mono diload via next/font di layout.tsx
+   sebagai CSS variables --font-inter dan --font-jetbrains */
 
+/* ---- CSS Variables / Design Tokens ---- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Core palette */
+  --color-bg-base:       #020617;   /* slate-950 */
+  --color-bg-elevated:   #0f172a;   /* slate-900 */
+  --color-bg-card:       #0f172a;
+  --color-border:        #1e293b;   /* slate-800 */
+  --color-border-subtle: #0f172a;
+
+  /* Brand */
+  --color-brand:         #f97316;   /* orange-500 */
+  --color-brand-dim:     rgba(249,115,22,.12);
+  --color-brand-glow:    rgba(249,115,22,.35);
+
+  /* Data colors */
+  --color-gain:    #f97316;   /* orange — gain lahan */
+  --color-loss:    #10b981;   /* emerald — loss lahan */
+  --color-gain-air:#06b6d4;   /* cyan — gain air */
+  --color-loss-air:#a78bfa;   /* violet — loss air */
+  --color-aoi:     #94a3b8;   /* slate — AOI */
+
+  /* Accent */
+  --color-neon-orange: #ff6b00;
+  --color-crimson:     #e11d48;
+  --color-cyan-glow:   #06b6d4;
+  --color-violet:      #a78bfa;
+  --color-emerald:     #4ade80;
+  --color-amber:       #f59e0b;
+
+  /* Typography — menggunakan next/font CSS variables dari layout.tsx */
+  --font-sans: var(--font-inter), var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains), var(--font-geist-mono), 'Fira Code', monospace;
+
+  /* Blur */
+  --blur-glass: blur(20px) saturate(180%);
+  --blur-heavy: blur(40px) saturate(200%);
+
+  /* Shadows */
+  --shadow-glow-brand: 0 0 20px rgba(249,115,22,.25), 0 0 60px rgba(249,115,22,.08);
+  --shadow-panel: 0 25px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ---- Base reset untuk full-viewport map ---- */
+html, body, #__next {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  background: var(--color-bg-base);
+  color: #f1f5f9;
+  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   ANIMATIONS — Micro-interactions premium
+   ============================================================ */
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 6px rgba(249,115,22,.4); }
+  50%       { box-shadow: 0 0 20px rgba(249,115,22,.8), 0 0 40px rgba(249,115,22,.3); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes counter-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes radar-ping {
+  0%   { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+@keyframes hud-scanline {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+@keyframes border-rotate {
+  from { --angle: 0deg; }
+  to   { --angle: 360deg; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-4px); }
+}
+
+/* ============================================================
+   GLASS PANEL UTILITIES
+   ============================================================ */
+
+.glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: var(--shadow-panel);
+}
+
+.glass-panel-dark {
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: var(--blur-glass);
+  -webkit-backdrop-filter: var(--blur-glass);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(15,23,42,0.9) 0%, rgba(2,6,23,0.95) 100%);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 8px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* Gradient border card */
+.glass-card-gradient {
+  position: relative;
+  background: rgba(10,16,35,0.92);
+  backdrop-filter: blur(20px);
+}
+.glass-card-gradient::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(249,115,22,.3), rgba(6,182,212,.15), rgba(167,139,250,.2));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ============================================================
+   HUD COMPONENT STYLES
+   ============================================================ */
+
+.hud-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+.hud-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.hud-button:hover::after { opacity: 1; }
+.hud-button:hover {
+  box-shadow: 0 0 12px rgba(249,115,22,.3), inset 0 0 8px rgba(249,115,22,.05);
+}
+.hud-button.active {
+  box-shadow: var(--shadow-glow-brand);
+}
+
+/* Status dot animations */
+.status-dot-live {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.radar-ring {
+  animation: radar-ping 2s ease-out infinite;
+}
+
+/* ============================================================
+   SIDEBAR PANEL
+   ============================================================ */
+
+.sidebar-tab-indicator {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sidebar-header-gradient {
+  background: linear-gradient(135deg,
+    rgba(249,115,22,.08) 0%,
+    rgba(6,182,212,.04) 50%,
+    transparent 100%
+  );
+}
+
+/* ============================================================
+   LAYER CONTROLLER
+   ============================================================ */
+
+.layer-row {
+  transition: background 0.15s ease;
+}
+.layer-row:hover {
+  background: rgba(255,255,255,.02);
+}
+
+.opacity-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 3px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.opacity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(0,0,0,.4);
+  transition: transform 0.15s ease;
+}
+.opacity-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+}
+
+/* ============================================================
+   BOTTOM HUD
+   ============================================================ */
+
+.hud-scanline {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,.015) 2px,
+    rgba(255,255,255,.015) 4px
+  );
+}
+
+.timeline-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #334155, #475569);
+  position: relative;
+  overflow: visible;
+}
+
+.timeline-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-brand);
+  box-shadow: 0 0 12px rgba(249,115,22,.6);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+.timeline-thumb:hover {
+  transform: scale(1.3);
+  box-shadow: 0 0 20px rgba(249,115,22,.8);
+}
+
+/* ============================================================
+   FLOATING STATS CARDS
+   ============================================================ */
+
+.floating-stat-card {
+  animation: slide-up 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.floating-stat-card:nth-child(2) { animation-delay: 0.08s; }
+.floating-stat-card:nth-child(3) { animation-delay: 0.16s; }
+
+/* Sparkline mini chart */
+.sparkline-bar {
+  transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s;
+}
+.sparkline-bar:hover { opacity: 0.8; }
+
+/* ============================================================
+   GAUGE SVG ANIMATION
+   ============================================================ */
+
+.gauge-arc {
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gauge-glow {
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================ */
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.font-mono-data {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, #f97316, #fb923c, #fdba74);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, #06b6d4, #22d3ee);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 transparent;
+}
+.scrollbar-thin::-webkit-scrollbar { width: 4px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #334155;
+  border-radius: 2px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background-color: #475569; }
+
+/* ============================================================
+   MAPLIBRE OVERRIDES
+   ============================================================ */
+
+.maplibregl-ctrl-attrib,
+.maplibregl-ctrl-logo { display: none !important; }
+
+.maplibregl-popup-content {
+  background: rgba(10, 15, 35, 0.96) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 0 !important;
+  color: #f1f5f9;
+  box-shadow: 0 25px 50px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.04) !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: rgba(10,15,35,.96) !important;
+  border-bottom-color: rgba(10,15,35,.96) !important;
+}
+
+.maplibregl-popup-close-button {
+  color: #64748b;
+  font-size: 18px;
+  right: 8px;
+  top: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.maplibregl-popup-close-button:hover {
+  background: rgba(255,255,255,.08);
+  color: #f1f5f9;
+}
+
+/* Custom nav controls */
+.maplibregl-ctrl-group {
+  background: rgba(10,15,35,.85) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.06) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4) !important;
+}
+.maplibregl-ctrl-group button {
+  background: transparent !important;
+  color: #94a3b8 !important;
+  border-bottom: 1px solid rgba(255,255,255,.04) !important;
+  transition: background 0.15s, color 0.15s !important;
+}
+.maplibregl-ctrl-group button:hover {
+  background: rgba(255,255,255,.08) !important;
+  color: #f1f5f9 !important;
+}
+.maplibregl-ctrl-group button:last-child {
+  border-bottom: none !important;
+}
+
+/* Scale bar */
+.maplibregl-ctrl-scale {
+  background: rgba(10,15,35,.75) !important;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.1) !important;
+  border-top: 2px solid #f97316 !important;
+  color: #94a3b8 !important;
+  font-family: var(--font-mono) !important;
+  font-size: 10px !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+}
+
+/* ============================================================
+   ANIMATIONS UTILITY CLASSES
+   ============================================================ */
+
+.animate-slide-up    { animation: slide-up 0.4s ease both; }
+.animate-slide-left  { animation: slide-in-left 0.4s ease both; }
+.animate-fade-in     { animation: fade-in 0.3s ease both; }
+.animate-float       { animation: float 3s ease-in-out infinite; }
+.animate-spin-slow   { animation: spin-slow 8s linear infinite; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,.08) 50%, transparent 75%);
+  background-size: 200% auto;
+  animation: shimmer 2s linear infinite;
+}
+
+/* ============================================================
+   LOADING STATE SKELETON
+   ============================================================ */
+
+.skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 200% auto;
+  animation: shimmer 1.5s linear infinite;
+  border-radius: 4px;
 }
