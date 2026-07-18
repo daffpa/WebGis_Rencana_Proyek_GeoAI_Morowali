@@ -11,6 +11,8 @@ import SidebarPanel from '@/components/sidebar/SidebarPanel';
 import BottomHUD from '@/components/map/BottomHUD';
 import FloatingStatsPanel from '@/components/map/FloatingStatsPanel';
 import TopStatusBar from '@/components/map/TopStatusBar';
+import MapTitleBlock from '@/components/map/MapTitleBlock';
+import MapLegend from '@/components/map/MapLegend';
 
 export default function DashboardClient() {
   const [mounted, setMounted] = useState(false);
@@ -35,6 +37,12 @@ export default function DashboardClient() {
 
       {/* ---- Top status bar (kanan atas) ---- */}
       <TopStatusBar />
+
+      {/* ---- Map Title Block (Kiri Atas, Elemen Wajib) ---- */}
+      <MapTitleBlock />
+
+      {/* ---- Map Legend (Kiri Bawah, Elemen Wajib) ---- */}
+      <MapLegend />
 
       {/* ---- Floating stats cards (kanan tengah) ---- */}
       <FloatingStatsPanel />
