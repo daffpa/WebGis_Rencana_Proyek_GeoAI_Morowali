@@ -7,6 +7,7 @@
 import { useEffect, useRef } from 'react';
 import { useMapStore } from '@/store/mapStore';
 import type { LayerId, GeoJSONFeatureCollection } from '@/types/geospatial';
+import { LAYER_CONFIGS } from '@/types/geospatial';
 
 interface UseGeoJSONLayerResult {
   data: GeoJSONFeatureCollection | null;
