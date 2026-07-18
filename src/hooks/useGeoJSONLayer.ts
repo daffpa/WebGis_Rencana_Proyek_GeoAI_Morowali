@@ -46,7 +46,8 @@ export function useGeoJSONLayer(
       setLayerError(layerId, null);
 
       try {
-        const response = await fetch(`/api/geojson/${layerId}`, {
+        const url = LAYER_CONFIGS[layerId].apiPath;
+        const response = await fetch(url, {
           signal: controller.signal,
         });
 

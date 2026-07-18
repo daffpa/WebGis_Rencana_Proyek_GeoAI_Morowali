@@ -89,7 +89,7 @@ export const LAYER_CONFIGS: Record<LayerId, LayerConfig> = {
     color: '#94a3b8',
     outlineColor: '#cbd5e1',
     opacity: 0.15,
-    apiPath: '/api/geojson/aoi',
+    apiPath: '/data/aoi.geojson',
     description: 'Batas wilayah kajian Kab. Morowali',
   },
   gain_lahan: {
@@ -98,7 +98,7 @@ export const LAYER_CONFIGS: Record<LayerId, LayerConfig> = {
     color: '#f97316',
     outlineColor: '#fb923c',
     opacity: 0.75,
-    apiPath: '/api/geojson/gain_lahan',
+    apiPath: '/data/gain.geojson',
     description: 'Area ekspansi lahan tambang 2024→2025',
   },
   loss_lahan: {
@@ -107,7 +107,7 @@ export const LAYER_CONFIGS: Record<LayerId, LayerConfig> = {
     color: '#22c55e',
     outlineColor: '#4ade80',
     opacity: 0.75,
-    apiPath: '/api/geojson/loss_lahan',
+    apiPath: '/data/loss.geojson',
     description: 'Area revegetasi/pemulihan lahan 2024→2025',
   },
   gain_air: {
@@ -116,7 +116,7 @@ export const LAYER_CONFIGS: Record<LayerId, LayerConfig> = {
     color: '#06b6d4',
     outlineColor: '#22d3ee',
     opacity: 0.7,
-    apiPath: '/api/geojson/gain_air',
+    apiPath: '/data/gain_air.geojson',
     description: 'Perluasan zona keruh/sedimentasi 2024→2025',
   },
   loss_air: {
@@ -125,7 +125,7 @@ export const LAYER_CONFIGS: Record<LayerId, LayerConfig> = {
     color: '#a78bfa',
     outlineColor: '#c4b5fd',
     opacity: 0.7,
-    apiPath: '/api/geojson/loss_air',
+    apiPath: '/data/loss_air.geojson',
     description: 'Pemulihan kualitas perairan 2024→2025',
   },
   // ---- Layer per-tahun: Klasifikasi aktual tiap tahun ----
@@ -135,7 +135,7 @@ export const LAYER_CONFIGS: Record<LayerId, LayerConfig> = {
     color: '#fb923c',
     outlineColor: '#f97316',
     opacity: 0.6,
-    apiPath: '/api/geojson/target_lahan_2024',
+    apiPath: '/data/target_2024.geojson',
     description: 'Klasifikasi lahan terbuka tahun 2024 (11.820 Ha)',
   },
   target_lahan_2025: {
@@ -144,7 +144,7 @@ export const LAYER_CONFIGS: Record<LayerId, LayerConfig> = {
     color: '#f97316',
     outlineColor: '#ea580c',
     opacity: 0.65,
-    apiPath: '/api/geojson/target_lahan_2025',
+    apiPath: '/data/target_2025.geojson',
     description: 'Klasifikasi lahan terbuka tahun 2025 (9.601 Ha)',
   },
   target_air_2024: {
@@ -153,7 +153,7 @@ export const LAYER_CONFIGS: Record<LayerId, LayerConfig> = {
     color: '#22d3ee',
     outlineColor: '#06b6d4',
     opacity: 0.6,
-    apiPath: '/api/geojson/target_air_2024',
+    apiPath: '/data/target_air_2024.geojson',
     description: 'Klasifikasi zona keruh/perairan 2024',
   },
   target_air_2025: {
@@ -162,7 +162,7 @@ export const LAYER_CONFIGS: Record<LayerId, LayerConfig> = {
     color: '#0ea5e9',
     outlineColor: '#38bdf8',
     opacity: 0.65,
-    apiPath: '/api/geojson/target_air_2025',
+    apiPath: '/data/target_air_2025.geojson',
     description: 'Klasifikasi zona keruh/perairan 2025',
   },
 };

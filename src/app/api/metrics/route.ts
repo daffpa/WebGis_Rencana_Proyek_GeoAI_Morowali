@@ -9,21 +9,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import type { MetricsData, ModelMetrics, ConfusionMatrix } from '@/types/geospatial';
 
-const LAHAN_METRICS_PATH = path.join(
-  process.cwd(),
-  '..',
-  'WORKSPACE_ANGGOTA_2_ML_Lahan_Terbuka',
-  '03_Evaluasi & Hasil Klasifikasi',
-  'metrik_aprf_lahan.txt'
-);
-
-const AIR_METRICS_PATH = path.join(
-  process.cwd(),
-  '..',
-  'WORKSPACE_ANGGOTA_3_ML_Perairan',
-  '03_Evaluasi',
-  'metrik_aprf_air.txt'
-);
+const LAHAN_METRICS_PATH = path.join(process.cwd(), 'public', 'data', 'metrik_aprf_lahan.txt');
+const AIR_METRICS_PATH = path.join(process.cwd(), 'public', 'data', 'metrik_aprf_air.txt');
 
 // ---- Parser: metrik_aprf_lahan.txt ----
 // Format aktual:
