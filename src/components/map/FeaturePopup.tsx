@@ -39,13 +39,7 @@ export default function FeaturePopup() {
 
   return (
     <div className="absolute bottom-8 left-4 z-50 w-72 animate-in slide-in-from-bottom-4 duration-200">
-      <div
-        className="
-          rounded-xl overflow-hidden shadow-2xl
-          bg-slate-900/95 backdrop-blur-xl
-          border border-slate-700
-        "
-      >
+      <div className="rounded-xl overflow-hidden shadow-2xl glass-card">
         {/* Header */}
         <div
           className="px-4 py-3 flex items-center justify-between"
@@ -56,11 +50,11 @@ export default function FeaturePopup() {
               className="w-3 h-3 rounded-sm flex-shrink-0"
               style={{ backgroundColor: color }}
             />
-            <span className="text-sm font-semibold text-white truncate">{label}</span>
+            <span className="text-sm font-semibold theme-text truncate">{label}</span>
           </div>
           <button
             onClick={() => setSelectedFeature(null)}
-            className="text-slate-400 hover:text-white transition-colors p-0.5 rounded"
+            className="theme-text-muted hover:theme-text transition-colors p-0.5 rounded"
             aria-label="Tutup popup"
           >
             <X size={14} />
@@ -95,8 +89,8 @@ export default function FeaturePopup() {
         </div>
 
         {/* Footer */}
-        <div className="px-4 py-2 border-t border-slate-800 bg-slate-950/50">
-          <p className="text-[10px] text-slate-500 text-center">
+        <div className="px-4 py-2" style={{ borderTop: '1px solid var(--color-border)', background: 'var(--color-bg-surface)' }}>
+          <p className="text-[10px] theme-text-muted text-center">
             Sumber: Klasifikasi ML Sentinel-2 · Kab. Morowali
           </p>
         </div>
@@ -118,13 +112,13 @@ function DataRow({
 }) {
   return (
     <div className="flex items-center justify-between gap-2">
-      <div className="flex items-center gap-1.5 text-slate-400 text-xs min-w-0">
+      <div className="flex items-center gap-1.5 theme-text-muted text-xs min-w-0">
         <span className="flex-shrink-0">{icon}</span>
         <span>{label}</span>
       </div>
       <span
         className={`text-xs font-medium tabular-nums truncate ${
-          highlight ? 'text-orange-400' : 'text-slate-200'
+          highlight ? 'text-orange-400' : 'theme-text'
         }`}
       >
         {value}

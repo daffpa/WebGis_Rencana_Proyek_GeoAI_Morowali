@@ -95,6 +95,10 @@ interface MapStore {
   // Layer opacity per layer (0-1)
   layerOpacity: Record<string, number>;
   setLayerOpacity: (layerId: string, opacity: number) => void;
+
+  // Theme (dark | light)
+  theme: 'dark' | 'light';
+  toggleTheme: () => void;
 }
 
 // ---- Store implementation ----
@@ -207,6 +211,11 @@ export const useMapStore = create<MapStore>()(
         set((state) => ({
           layerOpacity: { ...state.layerOpacity, [layerId]: opacity },
         })),
+
+      // ---- Theme ----
+      theme: 'dark',
+      toggleTheme: () =>
+        set((state) => ({ theme: state.theme === 'dark' ? 'light' : 'dark' })),
     }),
     { name: 'GeoAI-Morowali-Store' }
   )

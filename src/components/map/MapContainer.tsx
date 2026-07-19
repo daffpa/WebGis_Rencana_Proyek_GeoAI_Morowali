@@ -39,8 +39,9 @@ const INITIAL_VIEW_2D = {
   bearing: 0,
 };
 
-// ---- Basemap: CartoDB Dark Matter (Open, No Key) ----
-const BASEMAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+// ---- Basemap: CartoDB (Open, No Key) — theme-aware ----
+const BASEMAP_DARK = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+const BASEMAP_LIGHT = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
 export default function MapContainer() {
   const mapRef = useRef<MapRef>(null);
@@ -48,7 +49,7 @@ export default function MapContainer() {
   const hoverInfo = useHoverInfo();
   const {
     setSelectedFeature, setHoverInfo, setCursorCoords,
-    is3D, layerOpacity,
+    is3D, layerOpacity, theme,
   } = useMapStore();
 
   // ---- Load setiap layer GeoJSON ----
@@ -145,7 +146,7 @@ export default function MapContainer() {
       <Map
         ref={mapRef}
         initialViewState={INITIAL_VIEW_3D}
-        mapStyle={BASEMAP_STYLE}
+        mapStyle={theme === 'light' ? BASEMAP_LIGHT : BASEMAP_DARK}
         interactiveLayerIds={interactiveLayerIds}
         onClick={onMapClick}
         onMouseMove={onMouseMove}

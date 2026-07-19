@@ -6,6 +6,7 @@
 // ============================================================
 
 import { useState, useEffect } from 'react';
+import { useMapStore } from '@/store/mapStore';
 import MapContainer from '@/components/map/MapContainer';
 import SidebarPanel from '@/components/sidebar/SidebarPanel';
 import BottomHUD from '@/components/map/BottomHUD';
@@ -16,17 +17,30 @@ import MapLegend from '@/components/map/MapLegend';
 
 export default function DashboardClient() {
   const [mounted, setMounted] = useState(false);
+  const theme = useMapStore((s) => s.theme);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Sync theme class to <html> element
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'light') {
+      root.classList.remove('dark');
+      root.classList.add('light');
+    } else {
+      root.classList.remove('light');
+      root.classList.add('dark');
+    }
+  }, [theme]);
 
   if (!mounted) {
     return <DashboardLoader />;
   }
 
   return (
-    <main className="relative w-full h-full overflow-hidden bg-slate-950">
+    <main className="relative w-full h-full overflow-hidden theme-bg-base">
       {/* ---- Peta penuh layar (Map-First, 3D) ---- */}
       <div className="absolute inset-0">
         <MapContainer />
@@ -52,7 +66,7 @@ export default function DashboardClient() {
 
       {/* ---- Branding watermark kanan bawah ---- */}
       <div className="absolute bottom-2 right-14 z-30 pointer-events-none">
-        <span className="text-[8px] text-slate-700 select-none font-mono-data tracking-wide">
+        <span className="text-[8px] theme-text-dim select-none font-mono-data tracking-wide">
           WebGIS GeoAI Morowali · Sentinel-2 · MapLibre GL v5
         </span>
       </div>
@@ -62,7 +76,7 @@ export default function DashboardClient() {
 
 function DashboardLoader() {
   return (
-    <div className="w-full h-full flex items-center justify-center bg-slate-950">
+    <div className="w-full h-full flex items-center justify-center theme-bg-base">
       <div className="flex flex-col items-center gap-6">
         {/* Animated logo */}
         <div className="relative w-20 h-20">
@@ -90,16 +104,16 @@ function DashboardLoader() {
         </div>
 
         <div className="text-center space-y-2">
-          <h1 className="text-xl font-black text-white tracking-tight">
+          <h1 className="text-xl font-black theme-text tracking-tight">
             <span className="text-gradient-brand">GeoAI</span> Morowali
           </h1>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs theme-text-muted">
             Memuat sistem deteksi perubahan spasial...
           </p>
         </div>
 
         {/* Loading bar */}
-        <div className="w-56 h-0.5 bg-slate-800 rounded-full overflow-hidden">
+        <div className="w-56 h-0.5 rounded-full overflow-hidden" style={{ background: 'var(--color-border)' }}>
           <div
             className="h-full rounded-full animate-shimmer"
             style={{
@@ -110,7 +124,7 @@ function DashboardLoader() {
           />
         </div>
 
-        <p className="text-[10px] text-slate-700 font-mono-data">
+        <p className="text-[10px] theme-text-dim font-mono-data">
           Initializing MapLibre GL · Sentinel-2 Pipeline
         </p>
       </div>

@@ -1,6 +1,5 @@
 'use client';
 import { useMapStore, useLayers } from '@/store/mapStore';
-import { LAYER_CONFIGS } from '@/types/geospatial';
 
 export default function MapTitleBlock() {
   const layers = useLayers();
@@ -17,12 +16,12 @@ export default function MapTitleBlock() {
 
   return (
     <div 
-      className="absolute top-4 z-40 bg-slate-900/80 backdrop-blur-md border border-slate-700 rounded-lg p-3 shadow-lg pointer-events-auto transition-all duration-300"
+      className="absolute top-4 z-40 glass-card rounded-lg p-3 shadow-lg pointer-events-auto transition-all duration-300"
       style={{ left: sidebarCollapsed ? '16px' : '396px' }}
     >
-      <h1 className="text-sm font-bold text-slate-100">Kabupaten Morowali</h1>
-      <p className="text-[10px] text-slate-400 mt-0.5">
-        Objek: <span className="font-semibold text-slate-200">{objek}</span> | Periode: <span className="font-semibold text-slate-200">2024–2025</span>
+      <h1 className="text-sm font-bold theme-text">Kabupaten Morowali</h1>
+      <p className="text-[10px] theme-text-muted mt-0.5">
+        Objek: <span className="font-semibold theme-text">{objek}</span> | Periode: <span className="font-semibold theme-text">2024–2025</span>
       </p>
     </div>
   );

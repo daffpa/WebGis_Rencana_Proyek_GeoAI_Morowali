@@ -70,7 +70,7 @@ export default function EvaluasiTab() {
   return (
     <div className="space-y-3">
       <Tabs.Root defaultValue="lahan">
-        <Tabs.List className="flex gap-1 p-1 rounded-lg bg-slate-900/60 border border-slate-800">
+        <Tabs.List className="flex gap-1 p-1 rounded-lg" style={{ background: 'var(--color-bg-surface)', border: '1px solid var(--color-border)' }}>
           {[
             { value: 'lahan', label: '🌿 Lahan Terbuka' },
             { value: 'air',   label: '💧 Kekeruhan Air' },
@@ -80,8 +80,8 @@ export default function EvaluasiTab() {
               value={t.value}
               className={cn(
                 'flex-1 py-1.5 text-[10px] font-medium rounded-md transition-colors cursor-pointer',
-                'text-slate-500 hover:text-slate-300',
-                'data-[state=active]:bg-slate-800 data-[state=active]:text-orange-400'
+                'theme-text-muted',
+                'data-[state=active]:bg-[var(--color-border)] data-[state=active]:text-orange-400'
               )}
             >
               {t.label}
@@ -99,7 +99,7 @@ export default function EvaluasiTab() {
             <span className="text-cyan-400 text-[11px] mt-0.5">ℹ</span>
             <div>
               <p className="text-[10px] font-semibold text-cyan-300">Model Gabungan 2024+2025</p>
-              <p className="text-[9px] text-slate-500 mt-0.5 leading-relaxed">
+              <p className="text-[9px] theme-text-muted mt-0.5 leading-relaxed">
                 Dilatih dari ground truth kedua tahun. Threshold optimal:{" "}
                 <span className="text-cyan-400 font-bold">
                   {data.model_air_combined?.best_params?.threshold_optimal
@@ -120,9 +120,9 @@ function ModelMetricsView({ metrics }: { metrics: ModelMetrics }) {
   return (
     <div className="space-y-3">
       {/* Gauge charts */}
-      <div className="rounded-xl border border-slate-800/60 overflow-hidden" style={{ background: 'linear-gradient(135deg, rgba(15,23,42,0.8), rgba(2,6,23,0.9))' }}>
-        <div className="px-3 py-2 border-b border-slate-800/40">
-          <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">
+      <div className="rounded-xl overflow-hidden" style={{ background: 'var(--color-bg-surface)', border: '1px solid var(--color-border)' }}>
+        <div className="px-3 py-2" style={{ borderBottom: '1px solid var(--color-border)' }}>
+          <p className="text-[9px] font-bold theme-text-muted uppercase tracking-widest">
             Metrik Performa
           </p>
         </div>
@@ -135,8 +135,8 @@ function ModelMetricsView({ metrics }: { metrics: ModelMetrics }) {
       </div>
 
       {/* Confusion Matrix */}
-      <div className="rounded-xl bg-slate-900/60 border border-slate-800 p-3">
-        <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest mb-3">
+      <div className="rounded-xl p-3" style={{ background: 'var(--color-bg-surface)', border: '1px solid var(--color-border)' }}>
+        <p className="text-[10px] font-semibold theme-text-muted uppercase tracking-widest mb-3">
           Confusion Matrix
         </p>
         <ConfusionMatrixChart
@@ -147,25 +147,25 @@ function ModelMetricsView({ metrics }: { metrics: ModelMetrics }) {
 
       {/* Detail metrik */}
       {(metrics.false_positive !== undefined || metrics.best_cv_f1 !== undefined || metrics.best_params) && (
-        <div className="rounded-xl bg-slate-900/60 border border-slate-800 p-3 space-y-1.5">
-          <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
+        <div className="rounded-xl p-3 space-y-1.5" style={{ background: 'var(--color-bg-surface)', border: '1px solid var(--color-border)' }}>
+          <p className="text-[10px] font-semibold theme-text-muted uppercase tracking-widest">
             Detail
           </p>
           {metrics.false_positive !== undefined && (
             <div className="flex justify-between text-xs">
-              <span className="text-slate-500">False Positive</span>
+              <span className="theme-text-muted">False Positive</span>
               <span className="text-red-400 tabular-nums font-medium">{metrics.false_positive}</span>
             </div>
           )}
           {metrics.false_negative !== undefined && (
             <div className="flex justify-between text-xs">
-              <span className="text-slate-500">False Negative</span>
+              <span className="theme-text-muted">False Negative</span>
               <span className="text-yellow-400 tabular-nums font-medium">{metrics.false_negative}</span>
             </div>
           )}
           {metrics.best_cv_f1 !== undefined && (
             <div className="flex justify-between text-xs">
-              <span className="text-slate-500">Best CV F1-Score</span>
+              <span className="theme-text-muted">Best CV F1-Score</span>
               <span className="text-emerald-400 tabular-nums font-medium">
                 {(metrics.best_cv_f1 * 100).toFixed(1)}%
               </span>
@@ -173,7 +173,7 @@ function ModelMetricsView({ metrics }: { metrics: ModelMetrics }) {
           )}
           {metrics.best_params?.threshold_optimal !== undefined && (
             <div className="flex justify-between text-xs">
-              <span className="text-slate-500">Threshold Optimal</span>
+              <span className="theme-text-muted">Threshold Optimal</span>
               <span className="text-cyan-400 tabular-nums font-medium">
                 {metrics.best_params.threshold_optimal}
               </span>
@@ -188,16 +188,16 @@ function ModelMetricsView({ metrics }: { metrics: ModelMetrics }) {
 function EvaluasiSkeleton() {
   return (
     <div className="space-y-3 animate-pulse">
-      <div className="h-8 rounded-lg bg-slate-800" />
-      <div className="rounded-xl bg-slate-900/60 border border-slate-800 p-3">
-        <div className="h-3 w-24 bg-slate-800 rounded mb-3" />
+      <div className="h-8 rounded-lg skeleton" />
+      <div className="rounded-xl p-3" style={{ background: 'var(--color-bg-surface)', border: '1px solid var(--color-border)' }}>
+        <div className="h-3 w-24 skeleton rounded mb-3" />
         <div className="grid grid-cols-2 gap-2">
           {[...Array(4)].map((_, i) => (
-            <div key={i} className="h-24 bg-slate-800 rounded-lg" />
+            <div key={i} className="h-24 skeleton rounded-lg" />
           ))}
         </div>
       </div>
-      <div className="h-48 rounded-xl bg-slate-900/60 border border-slate-800" />
+      <div className="h-48 rounded-xl skeleton" />
     </div>
   );
 }

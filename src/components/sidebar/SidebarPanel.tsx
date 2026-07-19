@@ -48,12 +48,12 @@ export default function SidebarPanel() {
         className={cn(
           'flex-1 min-h-0 flex flex-col rounded-2xl overflow-hidden',
           'glass-card-gradient',
-          'shadow-[0_25px_60px_rgba(0,0,0,.7),0_0_0_1px_rgba(255,255,255,.05)]',
           'transition-all duration-300'
         )}
+        style={{ boxShadow: 'var(--shadow-panel)' }}
       >
         {/* ---- Header dengan gradient branding ---- */}
-        <div className="sidebar-header-gradient border-b border-slate-800/60 flex-shrink-0">
+        <div className="sidebar-header-gradient flex-shrink-0" style={{ borderBottom: '1px solid var(--color-border)' }}>
           {!sidebarCollapsed ? (
             <div className="px-4 py-3.5 flex items-center gap-3">
               {/* Logo icon */}
@@ -66,10 +66,10 @@ export default function SidebarPanel() {
                 <div className="absolute -inset-0.5 rounded-xl border border-orange-500/20 animate-pulse" />
               </div>
               <div className="flex-1 min-w-0">
-                <h1 className="text-sm font-black text-white tracking-tight leading-none">
+                <h1 className="text-sm font-black theme-text tracking-tight leading-none">
                   GeoAI <span className="text-gradient-brand">Morowali</span>
                 </h1>
-                <p className="text-[9px] text-slate-500 mt-0.5 leading-none">
+                <p className="text-[9px] theme-text-muted mt-0.5 leading-none">
                   Deteksi Perubahan Spasial · Kab. Morowali
                 </p>
               </div>
@@ -98,7 +98,7 @@ export default function SidebarPanel() {
             className="flex flex-col flex-1 min-h-0"
           >
             {/* ---- Tab List ---- */}
-            <Tabs.List className="flex px-2 pt-2.5 gap-0.5 flex-shrink-0 bg-slate-950/30">
+            <Tabs.List className="flex px-2 pt-2.5 gap-0.5 flex-shrink-0" style={{ background: 'var(--color-bg-surface)' }}>
               {TABS.map((tab) => {
                 const isActive = activeTab === tab.id;
                 return (
@@ -109,10 +109,9 @@ export default function SidebarPanel() {
                       'flex-1 flex flex-col items-center gap-1 py-2 px-1 rounded-xl',
                       'text-[9px] font-bold uppercase tracking-wider',
                       'transition-all duration-200 cursor-pointer relative overflow-hidden',
-                      'hover:bg-slate-800/40',
                       isActive
-                        ? 'text-white'
-                        : 'text-slate-600 hover:text-slate-400'
+                        ? 'theme-text'
+                        : 'theme-text-dim'
                     )}
                     style={isActive ? {
                       backgroundColor: `${tab.color}15`,
@@ -149,13 +148,13 @@ export default function SidebarPanel() {
                 className="h-4 w-0.5 rounded-full"
                 style={{ backgroundColor: activeTabConfig?.color ?? '#f97316' }}
               />
-              <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
+              <span className="text-[10px] font-semibold theme-text-muted uppercase tracking-widest">
                 {activeTabConfig?.label}
               </span>
             </div>
 
             {/* Divider */}
-            <div className="h-px bg-gradient-to-r from-transparent via-slate-800 to-transparent mx-3 flex-shrink-0" />
+            <div className="h-px mx-3 flex-shrink-0" style={{ background: 'linear-gradient(90deg, transparent, var(--color-border), transparent)' }} />
 
             {/* ---- Tab Content (scrollable) ---- */}
             <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin">
@@ -195,7 +194,7 @@ export default function SidebarPanel() {
                   style={isActive ? {
                     backgroundColor: `${tab.color}15`,
                     color: tab.color,
-                  } : { color: '#475569' }}
+                  } : { color: 'var(--color-text-dim)' }}
                   title={tab.label}
                 >
                   {tab.icon}
@@ -214,11 +213,12 @@ export default function SidebarPanel() {
           'w-7 h-14 rounded-full',
           'glass-card',
           'flex items-center justify-center',
-          'text-slate-500 hover:text-orange-400',
+          'theme-text-muted',
           'transition-all duration-200 hover:scale-110 cursor-pointer',
-          'border border-slate-800 hover:border-orange-500/30',
+          'hover:text-orange-400',
           'hover:shadow-[0_0_12px_rgba(249,115,22,.2)]'
         )}
+        style={{ border: '1px solid var(--color-border)' }}
         aria-label={sidebarCollapsed ? 'Buka sidebar' : 'Tutup sidebar'}
       >
         {sidebarCollapsed ? (

@@ -4,7 +4,6 @@
 // ============================================================
 
 import { useHoverInfo } from '@/store/mapStore';
-import { LAYER_CONFIGS, type LayerId } from '@/types/geospatial';
 
 export default function HoverTooltip() {
   const hoverInfo = useHoverInfo();
@@ -35,29 +34,20 @@ export default function HoverTooltip() {
       className="absolute z-50 pointer-events-none select-none"
       style={{ left: x + 14, top: y - 10 }}
     >
-      <div
-        className="
-          rounded-lg px-3 py-2 shadow-xl
-          bg-slate-900/95 backdrop-blur-md
-          border border-slate-700
-          text-xs text-slate-200
-          min-w-[160px] max-w-[240px]
-          animate-in fade-in zoom-in-95 duration-100
-        "
-      >
+      <div className="rounded-lg px-3 py-2 shadow-xl glass-card text-xs min-w-[160px] max-w-[240px] animate-in fade-in zoom-in-95 duration-100">
         {/* Color indicator */}
         <div className="flex items-center gap-2 mb-1.5">
           <span
             className="w-2.5 h-2.5 rounded-sm flex-shrink-0"
             style={{ backgroundColor: layerColor }}
           />
-          <span className="font-semibold text-white truncate">{kategori}</span>
+          <span className="font-semibold theme-text truncate">{kategori}</span>
         </div>
 
-        <div className="space-y-0.5 text-slate-400">
+        <div className="space-y-0.5 theme-text-muted">
           <div className="flex justify-between gap-4">
             <span>Luas</span>
-            <span className="text-slate-200 font-medium tabular-nums">{luasHa} ha</span>
+            <span className="theme-text font-medium tabular-nums">{luasHa} ha</span>
           </div>
           {conf && (
             <div className="flex justify-between gap-4">
@@ -67,7 +57,7 @@ export default function HoverTooltip() {
           )}
         </div>
 
-        <div className="mt-1.5 text-slate-500 text-[10px]">
+        <div className="mt-1.5 theme-text-muted text-[10px]">
           Klik untuk detail lengkap
         </div>
       </div>

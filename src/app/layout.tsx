@@ -66,9 +66,9 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${jetbrainsMono.variable} dark h-full antialiased`}
     >
-      <body className="h-full w-full overflow-hidden bg-slate-950 text-slate-100">
+      <body className="h-full w-full overflow-hidden">
         {children}
       </body>
     </html>

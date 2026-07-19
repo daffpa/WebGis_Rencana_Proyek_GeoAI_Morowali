@@ -12,10 +12,10 @@ export default function MapLegend() {
 
   return (
     <div 
-      className="absolute bottom-6 z-40 bg-slate-900/80 backdrop-blur-md border border-slate-700 rounded-lg p-3 shadow-lg pointer-events-auto min-w-[140px] transition-all duration-300"
+      className="absolute bottom-20 z-40 glass-card rounded-lg p-3 shadow-lg pointer-events-auto min-w-[140px] transition-all duration-300"
       style={{ left: sidebarCollapsed ? '16px' : '396px' }}
     >
-      <h3 className="text-[10px] font-bold text-slate-300 uppercase tracking-wider mb-2 border-b border-slate-700/50 pb-1">
+      <h3 className="text-[10px] font-bold theme-text-secondary uppercase tracking-wider mb-2 pb-1" style={{ borderBottom: '1px solid var(--color-border)' }}>
         Legenda
       </h3>
       <div className="space-y-1.5">
@@ -32,7 +32,7 @@ export default function MapLegend() {
                   borderColor: config.outlineColor
                 }} 
               />
-              <span className="text-[10px] text-slate-200">{config.label}</span>
+              <span className="text-[10px] theme-text">{config.label}</span>
             </div>
           );
         })}

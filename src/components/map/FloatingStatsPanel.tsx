@@ -48,7 +48,7 @@ function StatRow({
 }) {
   return (
     <div className="flex items-center justify-between gap-2">
-      <span className="text-[9px] text-slate-500 leading-tight">{label}</span>
+      <span className="text-[9px] theme-text-muted leading-tight">{label}</span>
       <span
         className="text-[10px] font-bold tabular-nums font-mono-data"
         style={{ color }}
@@ -128,9 +128,9 @@ export default function FloatingStatsPanel() {
               >
                 <TrendingUp size={12} style={{ color: '#f97316' }} />
               </div>
-              <span className="text-[10px] font-bold text-slate-300">Lahan Terbuka</span>
+              <span className="text-[10px] font-bold theme-text-secondary">Lahan Terbuka</span>
             </div>
-            <ChevronRight size={10} className="text-slate-700" />
+            <ChevronRight size={10} className="theme-text-dim" />
           </div>
 
           {/* Sparkline */}
@@ -147,11 +147,11 @@ export default function FloatingStatsPanel() {
               >
                 {lahan.net > 0 ? '+' : ''}{lahan.net.toFixed(0)}
               </div>
-              <div className="text-[8px] text-slate-600">Ha neto</div>
+              <div className="text-[8px] theme-text-dim">Ha neto</div>
             </div>
           </div>
 
-          <div className="space-y-1 pt-1 border-t border-slate-800/50">
+          <div className="space-y-1 pt-1" style={{ borderTop: '1px solid var(--color-border)' }}>
             <StatRow label="Gain" value={`+${lahan.gainHa.toFixed(1)} Ha`} color="#f97316" positive={true} />
             <StatRow label="Loss" value={`-${lahan.lossHa.toFixed(1)} Ha`} color="#10b981" positive={false} />
           </div>
@@ -172,9 +172,9 @@ export default function FloatingStatsPanel() {
               >
                 <Droplets size={12} style={{ color: '#06b6d4' }} />
               </div>
-              <span className="text-[10px] font-bold text-slate-300">Kekeruhan Air</span>
+              <span className="text-[10px] font-bold theme-text-secondary">Kekeruhan Air</span>
             </div>
-            <ChevronRight size={10} className="text-slate-700" />
+            <ChevronRight size={10} className="theme-text-dim" />
           </div>
 
           <div className="flex items-end gap-1 mb-2 h-8">
@@ -188,11 +188,11 @@ export default function FloatingStatsPanel() {
               )}>
                 {air.net > 0 ? '+' : ''}{air.net.toFixed(0)}
               </div>
-              <div className="text-[8px] text-slate-600">Ha neto</div>
+              <div className="text-[8px] theme-text-dim">Ha neto</div>
             </div>
           </div>
 
-          <div className="space-y-1 pt-1 border-t border-slate-800/50">
+          <div className="space-y-1 pt-1" style={{ borderTop: '1px solid var(--color-border)' }}>
             <StatRow label="Perluasan Keruh" value={`+${air.gainHa.toFixed(1)} Ha`} color="#06b6d4" positive={true} />
             <StatRow label="Pemulihan Air" value={`-${air.lossHa.toFixed(1)} Ha`} color="#a78bfa" positive={false} />
           </div>
@@ -213,20 +213,20 @@ export default function FloatingStatsPanel() {
               >
                 <BrainCircuit size={12} style={{ color: modelColor }} />
               </div>
-              <span className="text-[10px] font-bold text-slate-300">{modelLabel}</span>
+              <span className="text-[10px] font-bold theme-text-secondary">{modelLabel}</span>
             </div>
-            <ChevronRight size={10} className="text-slate-700" />
+            <ChevronRight size={10} className="theme-text-dim" />
           </div>
 
           {/* Accuracy gauge bar */}
           <div className="mb-2">
             <div className="flex justify-between items-end mb-1">
-              <span className="text-[9px] text-slate-500">Accuracy</span>
+              <span className="text-[9px] theme-text-muted">Accuracy</span>
               <span className="text-lg font-black tabular-nums" style={{ color: modelColor }}>
                 {Math.round(model.accuracy * 100)}%
               </span>
             </div>
-            <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+            <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--color-border)' }}>
               <div
                 className="h-full rounded-full transition-all duration-1000"
                 style={{
@@ -244,8 +244,8 @@ export default function FloatingStatsPanel() {
               { label: 'Recall', value: model.recall, color: '#818cf8' },
               { label: 'F1', value: model.f1_score, color: '#c084fc' },
             ].map(({ label, value, color }) => (
-              <div key={label} className="bg-slate-900/60 rounded-lg p-1.5 text-center">
-                <div className="text-[9px] text-slate-500">{label}</div>
+              <div key={label} className="rounded-lg p-1.5 text-center" style={{ background: 'var(--color-bg-surface)' }}>
+                <div className="text-[9px] theme-text-muted">{label}</div>
                 <div className="text-[11px] font-bold tabular-nums" style={{ color }}>
                   {Math.round(value * 100)}%
                 </div>

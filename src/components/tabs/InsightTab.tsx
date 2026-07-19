@@ -20,8 +20,6 @@ export default function InsightTab() {
       let featureCount = 0;
       for (const f of data.features) {
         featureCount++;
-        // getFeatureAreaHa: pakai area_ha/luas_ha jika ada,
-        // jika tidak ada (GeoJSON air) → hitung dari geometri polygon
         totalLuas += getFeatureAreaHa(f as Parameters<typeof getFeatureAreaHa>[0]);
       }
       return { totalLuas, featureCount };
@@ -61,10 +59,10 @@ export default function InsightTab() {
   if (!stats.hasData) {
     return (
       <div className="flex flex-col items-center justify-center py-10 gap-3 text-center">
-        <Activity size={32} className="text-slate-700" />
+        <Activity size={32} className="theme-text-dim" />
         <div>
-          <p className="text-xs font-medium text-slate-400">Belum Ada Data</p>
-          <p className="text-[10px] text-slate-600 mt-1">
+          <p className="text-xs font-medium theme-text-muted">Belum Ada Data</p>
+          <p className="text-[10px] theme-text-dim mt-1">
             Aktifkan layer di Tab Peta untuk<br />menghitung insight secara otomatis.
           </p>
         </div>
@@ -192,12 +190,12 @@ export default function InsightTab() {
       />
 
       {/* Catatan metodologis */}
-      <div className="rounded-xl bg-slate-900/60 border border-slate-800 p-3">
+      <div className="rounded-xl p-3" style={{ background: 'var(--color-bg-surface)', border: '1px solid var(--color-border)' }}>
         <div className="flex items-start gap-2">
           <AlertTriangle size={12} className="text-yellow-500 flex-shrink-0 mt-0.5" />
-          <p className="text-[10px] text-slate-500 leading-relaxed">
+          <p className="text-[10px] theme-text-muted leading-relaxed">
             Semua angka dihitung langsung dari geometri GeoJSON hasil klasifikasi ML.
-            Nilai <code className="text-slate-400">area_ha</code> menggunakan
+            Nilai <code className="theme-text-secondary">area_ha</code> menggunakan
             proyeksi data yang tersedia. Harap verifikasi dengan GIS desktop untuk
             analisis lanjutan.
           </p>
@@ -219,17 +217,17 @@ function InsightCard({
   items: { label: string; value: string; color: string; bold?: boolean }[];
 }) {
   return (
-    <div className="rounded-xl bg-slate-900/60 border border-slate-800 overflow-hidden">
-      <div className="px-3 py-2 border-b border-slate-800 flex items-center gap-2">
+    <div className="rounded-xl overflow-hidden" style={{ background: 'var(--color-bg-surface)', border: '1px solid var(--color-border)' }}>
+      <div className="px-3 py-2 flex items-center gap-2" style={{ borderBottom: '1px solid var(--color-border)' }}>
         <span style={{ color: iconColor }}>{icon}</span>
-        <h3 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
+        <h3 className="text-[10px] font-semibold theme-text-muted uppercase tracking-widest">
           {title}
         </h3>
       </div>
       <div className="p-3 space-y-2">
         {items.map((item, i) => (
           <div key={i} className="flex justify-between items-center gap-2">
-            <span className="text-xs text-slate-500">{item.label}</span>
+            <span className="text-xs theme-text-muted">{item.label}</span>
             <span
               className={`text-xs tabular-nums ${item.bold ? 'font-bold text-sm' : 'font-medium'}`}
               style={{ color: item.color }}

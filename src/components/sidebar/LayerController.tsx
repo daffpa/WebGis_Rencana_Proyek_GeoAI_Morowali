@@ -72,7 +72,7 @@ function MiniBarChart({
           <div className="absolute inset-0 rounded-t-sm"
             style={{ background: `linear-gradient(to top, ${color}20, ${color}80)` }} />
         </div>
-        <span className="text-[7px] text-slate-600">2024</span>
+        <span className="text-[7px] theme-text-dim">2024</span>
       </div>
       {/* 2025 */}
       <div className="flex flex-col items-center gap-0.5 flex-1">
@@ -82,7 +82,7 @@ function MiniBarChart({
           <div className="absolute inset-0 rounded-t-sm"
             style={{ background: `linear-gradient(to top, ${color}60, ${color})` }} />
         </div>
-        <span className="text-[7px] text-slate-600">2025</span>
+        <span className="text-[7px] theme-text-dim">2025</span>
       </div>
     </div>
   );
@@ -126,8 +126,8 @@ function InsightCard({
         borderColor: d.colorBorder,
         boxShadow: `0 0 20px ${d.color}0d`,
       } : {
-        background: 'rgba(15,23,42,0.5)',
-        borderColor: 'rgba(51,65,85,0.4)',
+        background: 'var(--color-bg-surface)',
+        borderColor: 'var(--color-border)',
       }}
     >
       {/* ---- Header ---- */}
@@ -139,42 +139,42 @@ function InsightCard({
               className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
               style={isVisible
                 ? { backgroundColor: `${d.color}20`, boxShadow: `0 0 12px ${d.color}25` }
-                : { backgroundColor: '#1e293b' }
+                : { backgroundColor: 'var(--color-border)' }
               }
             >
-              <Icon size={15} style={{ color: isVisible ? d.color : '#475569' }} />
+              <Icon size={15} style={{ color: isVisible ? d.color : 'var(--color-text-dim)' }} />
             </div>
             <div>
-              <p className={cn('text-xs font-bold', isVisible ? 'text-slate-200' : 'text-slate-500')}>
+              <p className={cn('text-xs font-bold', isVisible ? 'theme-text' : 'theme-text-muted')}>
                 {d.label}
               </p>
-              <p className="text-[8px] text-slate-600 mt-0.5">Kabupaten Morowali</p>
+              <p className="text-[8px] theme-text-dim mt-0.5">Kabupaten Morowali</p>
             </div>
           </div>
 
           {/* Toggle tampilkan di peta */}
           <div className="flex items-center gap-1.5 flex-shrink-0">
-            <Map size={9} className={isVisible ? 'text-slate-500' : 'text-slate-700'} />
+            <Map size={9} className={isVisible ? 'theme-text-muted' : 'theme-text-dim'} />
             <Switch.Root
               checked={isVisible}
               onCheckedChange={onToggleVisibility}
               className={cn(
                 'relative w-8 h-4 rounded-full transition-all duration-300 cursor-pointer',
                 'focus-visible:outline-none flex-shrink-0',
-                isVisible ? '' : 'bg-slate-800'
               )}
               style={isVisible ? {
                 backgroundColor: d.color,
                 boxShadow: `0 0 8px ${d.color}60`,
-              } : {}}
+              } : { backgroundColor: 'var(--color-border)' }}
               aria-label={`Tampilkan ${d.label} di peta`}
             >
               <Switch.Thumb
                 className={cn(
                   'block w-3 h-3 rounded-full shadow-md transition-transform duration-300',
                   'translate-x-0.5 data-[state=checked]:translate-x-4',
-                  isVisible ? 'bg-white' : 'bg-slate-600'
+                  isVisible ? 'bg-white' : ''
                 )}
+                style={!isVisible ? { backgroundColor: 'var(--color-text-dim)' } : {}}
               />
             </Switch.Root>
           </div>
@@ -197,11 +197,11 @@ function InsightCard({
             <div className="flex items-baseline gap-1.5">
               <span
                 className="text-2xl font-black tabular-nums leading-none"
-                style={{ color: isVisible ? d.color : '#475569' }}
+                style={{ color: isVisible ? d.color : 'var(--color-text-dim)' }}
               >
                 {curr.ha.toLocaleString('id-ID')}
               </span>
-              <span className="text-[9px] text-slate-500 font-medium">Ha</span>
+              <span className="text-[9px] theme-text-muted font-medium">Ha</span>
             </div>
             <div className="flex items-center gap-1 mt-0.5">
               {isIncrease
@@ -211,14 +211,14 @@ function InsightCard({
               <span className={cn('text-[9px] font-bold tabular-nums', isIncrease ? 'text-red-400' : 'text-emerald-400')}>
                 {isIncrease ? '+' : ''}{deltaHa.toLocaleString('id-ID')} Ha ({deltaPct.toFixed(1)}%)
               </span>
-              <span className="text-[8px] text-slate-700">vs {activeYear === 2025 ? '2024' : '2025'}</span>
+              <span className="text-[8px] theme-text-dim">vs {activeYear === 2025 ? '2024' : '2025'}</span>
             </div>
           </div>
         </div>
 
         {/* ---- Year toggle pills ---- */}
         <div className="mt-2.5 flex items-center gap-1.5">
-          <span className="text-[8px] text-slate-600 font-medium mr-0.5">Tahun:</span>
+          <span className="text-[8px] theme-text-dim font-medium mr-0.5">Tahun:</span>
           {([2024, 2025] as const).map((yr) => (
             <button
               key={yr}
@@ -227,9 +227,12 @@ function InsightCard({
                 'px-2.5 py-0.5 rounded-full text-[9px] font-bold transition-all duration-200 cursor-pointer',
                 activeYear === yr
                   ? 'text-white'
-                  : 'text-slate-600 hover:text-slate-400 bg-slate-800/60'
+                  : 'theme-text-dim'
               )}
-              style={activeYear === yr ? { backgroundColor: d.color } : {}}
+              style={activeYear === yr
+                ? { backgroundColor: d.color }
+                : { backgroundColor: 'var(--color-bg-surface)' }
+              }
             >
               {yr}
             </button>
@@ -238,7 +241,7 @@ function InsightCard({
           {/* Expand button */}
           <button
             onClick={() => setExpanded(!expanded)}
-            className="ml-auto flex items-center gap-0.5 text-[8px] text-slate-600 hover:text-slate-400 cursor-pointer transition-colors"
+            className="ml-auto flex items-center gap-0.5 text-[8px] theme-text-dim cursor-pointer transition-colors"
           >
             <BarChart3 size={9} />
             <span>{expanded ? 'Tutup' : 'Detail'}</span>
@@ -249,10 +252,10 @@ function InsightCard({
 
       {/* ---- Expanded detail ---- */}
       {expanded && (
-        <div className="px-3 pb-3 pt-0 border-t border-white/5 mt-0">
+        <div className="px-3 pb-3 pt-0 mt-0" style={{ borderTop: '1px solid var(--glass-border)' }}>
           {/* Progress bars perbandingan */}
           <div className="mt-2.5 space-y-2">
-            <p className="text-[8px] text-slate-600 font-semibold uppercase tracking-widest mb-2">
+            <p className="text-[8px] theme-text-dim font-semibold uppercase tracking-widest mb-2">
               Perbandingan Luas
             </p>
 
@@ -263,15 +266,15 @@ function InsightCard({
               return (
                 <div key={yr}>
                   <div className="flex justify-between items-center mb-0.5">
-                    <span className="text-[9px] text-slate-500 font-medium">{yr}</span>
+                    <span className="text-[9px] theme-text-muted font-medium">{yr}</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-[9px] text-slate-400 tabular-nums font-bold">
+                      <span className="text-[9px] theme-text-secondary tabular-nums font-bold">
                         {s.ha.toLocaleString('id-ID')} Ha
                       </span>
-                      <span className="text-[8px] text-slate-700">({s.pctAOI}% AOI)</span>
+                      <span className="text-[8px] theme-text-dim">({s.pctAOI}% AOI)</span>
                     </div>
                   </div>
-                  <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--color-border)' }}>
                     <div
                       className="h-full rounded-full transition-all duration-700"
                       style={{
@@ -281,7 +284,7 @@ function InsightCard({
                       }}
                     />
                   </div>
-                  <p className="text-[8px] text-slate-700 mt-0.5">
+                  <p className="text-[8px] theme-text-dim mt-0.5">
                     {s.count.toLocaleString('id-ID')} poligon terdeteksi
                   </p>
                 </div>
@@ -291,19 +294,19 @@ function InsightCard({
 
           {/* Gain / Loss */}
           <div className="mt-3 grid grid-cols-2 gap-2">
-            <div className="rounded-lg bg-slate-900/60 p-2 text-center">
+            <div className="rounded-lg p-2 text-center" style={{ background: 'var(--color-bg-surface)' }}>
               <div className="flex items-center justify-center gap-1 mb-0.5">
                 <TrendingUp size={9} className="text-red-400" />
-                <span className="text-[8px] text-slate-500">Bertambah</span>
+                <span className="text-[8px] theme-text-muted">Bertambah</span>
               </div>
               <p className="text-[11px] font-bold text-red-400 tabular-nums">
                 +{d.gain_ha.toLocaleString('id-ID')} Ha
               </p>
             </div>
-            <div className="rounded-lg bg-slate-900/60 p-2 text-center">
+            <div className="rounded-lg p-2 text-center" style={{ background: 'var(--color-bg-surface)' }}>
               <div className="flex items-center justify-center gap-1 mb-0.5">
                 <TrendingDown size={9} className="text-emerald-400" />
-                <span className="text-[8px] text-slate-500">Berkurang</span>
+                <span className="text-[8px] theme-text-muted">Berkurang</span>
               </div>
               <p className="text-[11px] font-bold text-emerald-400 tabular-nums">
                 −{d.loss_ha.toLocaleString('id-ID')} Ha
@@ -312,9 +315,9 @@ function InsightCard({
           </div>
 
           {/* Interpretasi singkat */}
-          <div className="mt-2.5 rounded-lg bg-slate-900/60 px-2.5 py-2 flex items-start gap-2">
-            <Info size={9} className="text-slate-600 flex-shrink-0 mt-0.5" />
-            <p className="text-[9px] text-slate-500 leading-relaxed">{d.desc}</p>
+          <div className="mt-2.5 rounded-lg px-2.5 py-2 flex items-start gap-2" style={{ background: 'var(--color-bg-surface)' }}>
+            <Info size={9} className="theme-text-dim flex-shrink-0 mt-0.5" />
+            <p className="text-[9px] theme-text-muted leading-relaxed">{d.desc}</p>
           </div>
         </div>
       )}
@@ -361,8 +364,11 @@ function ChangeCard({
     <div
       className={cn(
         'rounded-2xl border transition-all duration-300',
-        isAnyActive ? 'border-violet-500/25 bg-violet-500/8' : 'border-slate-800/60 bg-slate-900/50'
       )}
+      style={isAnyActive
+        ? { borderColor: 'rgba(167,139,250,.25)', background: 'rgba(167,139,250,.08)' }
+        : { borderColor: 'var(--color-border)', background: 'var(--color-bg-surface)' }
+      }
     >
       {/* Header */}
       <div className="px-3 py-3 flex items-center gap-2.5">
@@ -370,21 +376,21 @@ function ChangeCard({
           className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
           style={isAnyActive
             ? { backgroundColor: 'rgba(167,139,250,.2)', boxShadow: '0 0 10px rgba(167,139,250,.2)' }
-            : { backgroundColor: '#1e293b' }
+            : { backgroundColor: 'var(--color-border)' }
           }
         >
-          <ArrowLeftRight size={14} style={{ color: isAnyActive ? '#a78bfa' : '#475569' }} />
+          <ArrowLeftRight size={14} style={{ color: isAnyActive ? '#a78bfa' : 'var(--color-text-dim)' }} />
         </div>
         <div className="flex-1">
-          <p className={cn('text-xs font-bold', isAnyActive ? 'text-slate-200' : 'text-slate-500')}>
+          <p className={cn('text-xs font-bold', isAnyActive ? 'theme-text' : 'theme-text-muted')}>
             Deteksi Perubahan
           </p>
-          <p className="text-[8px] text-slate-600 mt-0.5">Analisis 2024 → 2025</p>
+          <p className="text-[8px] theme-text-dim mt-0.5">Analisis 2024 → 2025</p>
         </div>
         {/* Net change badge */}
         <div className="text-right flex-shrink-0">
           <p className="text-[9px] font-bold text-emerald-400">−4.075 Ha</p>
-          <p className="text-[7px] text-slate-700">net lahan</p>
+          <p className="text-[7px] theme-text-dim">net lahan</p>
         </div>
       </div>
 
@@ -398,20 +404,22 @@ function ChangeCard({
               onClick={() => onToggle(id)}
               className={cn(
                 'rounded-xl p-2.5 text-left cursor-pointer transition-all duration-200 border',
-                active ? 'border-transparent' : 'border-transparent bg-slate-900/60 hover:bg-slate-800/60'
               )}
               style={active ? {
                 backgroundColor: `${color}12`,
                 borderColor: `${color}30`,
-              } : {}}
+              } : {
+                backgroundColor: 'var(--color-bg-surface)',
+                borderColor: 'transparent',
+              }}
             >
               {/* Dot + label */}
               <div className="flex items-center gap-1.5 mb-1.5">
                 <span
                   className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: active ? color : '#334155' }}
+                  style={{ backgroundColor: active ? color : 'var(--color-border)' }}
                 />
-                <span className={cn('text-[9px] font-medium leading-tight', active ? 'text-slate-300' : 'text-slate-600')}>
+                <span className={cn('text-[9px] font-medium leading-tight', active ? 'theme-text-secondary' : 'theme-text-dim')}>
                   {label}
                 </span>
               </div>
@@ -419,11 +427,11 @@ function ChangeCard({
               {/* Number */}
               <p
                 className="text-sm font-black tabular-nums leading-none"
-                style={{ color: active ? color : '#334155' }}
+                style={{ color: active ? color : 'var(--color-border)' }}
               >
                 {icon}{ha >= 1000 ? `${(ha / 1000).toFixed(1)}k` : ha} <span className="text-[8px] font-normal">Ha</span>
               </p>
-              <p className="text-[8px] mt-0.5" style={{ color: active ? `${color}70` : '#1e293b' }}>
+              <p className="text-[8px] mt-0.5" style={{ color: active ? `${color}70` : 'var(--color-border)' }}>
                 {count.toLocaleString('id-ID')} area
               </p>
 
@@ -433,7 +441,7 @@ function ChangeCard({
                   className="text-[7px] font-bold px-1.5 py-0.5 rounded-full"
                   style={active
                     ? { color, backgroundColor: `${color}20` }
-                    : { color: '#334155', backgroundColor: '#0f172a' }
+                    : { color: 'var(--color-text-dim)', backgroundColor: 'var(--color-bg-surface)' }
                   }
                 >
                   {active ? '● DI PETA' : '○ NONAKTIF'}
@@ -487,11 +495,11 @@ export default function LayerController() {
     <div className="space-y-2.5">
 
       {/* Batas Wilayah — always on, minimal */}
-      <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-slate-900/50 border border-slate-800/40">
+      <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl" style={{ background: 'var(--color-bg-surface)', border: '1px solid var(--color-border)' }}>
         <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse flex-shrink-0" />
         <div className="flex-1 min-w-0">
-          <p className="text-[10px] font-semibold text-slate-400">Batas Wilayah Kajian</p>
-          <p className="text-[8px] text-slate-700">Kab. Morowali · 112.152 Ha · Selalu aktif</p>
+          <p className="text-[10px] font-semibold theme-text-muted">Batas Wilayah Kajian</p>
+          <p className="text-[8px] theme-text-dim">Kab. Morowali · 112.152 Ha · Selalu aktif</p>
         </div>
         <Eye size={10} className="text-emerald-600 flex-shrink-0" />
       </div>

@@ -1,7 +1,10 @@
 'use client';
 // ============================================================
 // MetricsGauge — SVG Gauge Premium dengan gradient + glow
+// Theme-aware: track dan teks menggunakan CSS variable colors
 // ============================================================
+
+import { useMapStore } from '@/store/mapStore';
 
 interface Props {
   label: string;
@@ -11,6 +14,7 @@ interface Props {
 }
 
 export default function MetricsGauge({ label, value, color, glowColor }: Props) {
+  const theme = useMapStore((s) => s.theme);
   const percentage = Math.round(value * 100);
   const glow = glowColor ?? color;
 
@@ -42,6 +46,12 @@ export default function MetricsGauge({ label, value, color, glowColor }: Props) 
   // Gradient id (unique per instance)
   const gradId = `gauge-grad-${label.replace(/\s+/g, '-').toLowerCase()}`;
 
+  // Theme-aware colors
+  const trackColor = theme === 'light' ? '#e2e8f0' : '#1e293b';
+  const trackInner = theme === 'light' ? '#f1f5f9' : '#0f172a';
+  const textColor = theme === 'light' ? '#0f172a' : '#f1f5f9';
+  const labelColor = theme === 'light' ? '#64748b' : '#64748b';
+
   return (
     <div className="flex flex-col items-center group">
       <svg
@@ -69,7 +79,7 @@ export default function MetricsGauge({ label, value, color, glowColor }: Props) 
         <path
           d={`M ${bgX1} ${bgY1} A ${r} ${r} 0 1 1 ${bgX2} ${bgY2}`}
           fill="none"
-          stroke="#1e293b"
+          stroke={trackColor}
           strokeWidth={7}
           strokeLinecap="round"
         />
@@ -78,7 +88,7 @@ export default function MetricsGauge({ label, value, color, glowColor }: Props) 
         <path
           d={`M ${bgX1} ${bgY1} A ${r} ${r} 0 1 1 ${bgX2} ${bgY2}`}
           fill="none"
-          stroke="#0f172a"
+          stroke={trackInner}
           strokeWidth={4}
           strokeLinecap="round"
         />
@@ -126,7 +136,7 @@ export default function MetricsGauge({ label, value, color, glowColor }: Props) 
           y={cy}
           textAnchor="middle"
           dominantBaseline="middle"
-          fill="#f1f5f9"
+          fill={textColor}
           fontSize="15"
           fontWeight="800"
           fontFamily="Inter, system-ui, sans-serif"
@@ -141,7 +151,7 @@ export default function MetricsGauge({ label, value, color, glowColor }: Props) 
           y={cy + 18}
           textAnchor="middle"
           dominantBaseline="middle"
-          fill="#64748b"
+          fill={labelColor}
           fontSize="8"
           fontFamily="Inter, system-ui, sans-serif"
           fontWeight="600"

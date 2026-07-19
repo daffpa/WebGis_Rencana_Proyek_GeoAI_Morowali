@@ -9,6 +9,8 @@ export default function DataProcessTab() {
     { tag: 'Band 3', desc: 'Green (560nm)' },
     { tag: 'Band 4', desc: 'Red (665nm)' },
     { tag: 'Band 8', desc: 'NIR (842nm)' },
+    { tag: 'Band 11', desc: 'SWIR-1 (1610nm)' },
+    { tag: 'Band 12', desc: 'SWIR-2 (2190nm)' },
     { tag: 'NDVI', desc: 'Normalized Difference Vegetation Index' },
     { tag: 'BSI', desc: 'Bare Soil Index' },
     { tag: 'NDWI', desc: 'Normalized Difference Water Index' },
@@ -31,7 +33,7 @@ export default function DataProcessTab() {
         <InfoRow label="Algoritma (Lahan)" value="Random Forest Classifier" />
         <InfoRow label="Algoritma (Perairan)" value="Random Forest Classifier" />
         <InfoRow label="Metode Sampling" value="Stratified Random (Ground Truth)" />
-        <InfoRow label="Validasi" value="Train/Test Split 80/20" />
+        <InfoRow label="Validasi" value="Train/Test Split 70/30" />
         <InfoRow label="Optimasi" value="GridSearchCV (Best Params)" />
       </Section>
 
@@ -40,20 +42,12 @@ export default function DataProcessTab() {
         <div className="flex flex-wrap gap-1.5 mt-1">
           {spectralFeatures.map((f) => (
             <div key={f.tag} className="group relative">
-              <span className="
-                px-2 py-0.5 rounded-md text-[11px] font-mono font-medium
-                bg-slate-800 text-cyan-400 border border-cyan-900/50
-                cursor-default
-              ">
+              <span className="px-2 py-0.5 rounded-md text-[11px] font-mono font-medium text-cyan-400 cursor-default"
+                style={{ background: 'var(--color-bg-surface)', border: '1px solid rgba(6,182,212,.25)' }}
+              >
                 [{f.tag}]
               </span>
-              <div className="
-                absolute bottom-full left-1/2 -translate-x-1/2 mb-1 z-10
-                hidden group-hover:block
-                px-2 py-1 rounded text-[10px] text-slate-200
-                bg-slate-800 border border-slate-700 shadow-xl
-                whitespace-nowrap
-              ">
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 z-10 hidden group-hover:block px-2 py-1 rounded text-[10px] shadow-xl whitespace-nowrap theme-text glass-card">
                 {f.desc}
               </div>
             </div>
@@ -73,11 +67,8 @@ export default function DataProcessTab() {
             'Prediksi kelas per piksel → vektor GeoJSON',
             'Deteksi perubahan: diferensiasi 2024 vs 2025',
           ].map((step, i) => (
-            <li key={i} className="flex items-start gap-2 text-xs text-slate-400">
-              <span className="
-                flex-shrink-0 w-4 h-4 rounded-full text-[9px] font-bold
-                bg-orange-500/20 text-orange-400 flex items-center justify-center mt-0.5
-              ">
+            <li key={i} className="flex items-start gap-2 text-xs theme-text-muted">
+              <span className="flex-shrink-0 w-4 h-4 rounded-full text-[9px] font-bold bg-orange-500/20 text-orange-400 flex items-center justify-center mt-0.5">
                 {i + 1}
               </span>
               {step}
@@ -91,9 +82,9 @@ export default function DataProcessTab() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl bg-slate-900/60 border border-slate-800 overflow-hidden">
-      <div className="px-3 py-2 border-b border-slate-800">
-        <h3 className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest">
+    <div className="rounded-xl overflow-hidden" style={{ background: 'var(--color-bg-surface)', border: '1px solid var(--color-border)' }}>
+      <div className="px-3 py-2" style={{ borderBottom: '1px solid var(--color-border)' }}>
+        <h3 className="text-[10px] font-semibold theme-text-muted uppercase tracking-widest">
           {title}
         </h3>
       </div>
@@ -105,8 +96,8 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between items-start gap-2 text-xs">
-      <span className="text-slate-500 flex-shrink-0">{label}</span>
-      <span className="text-slate-300 text-right">{value}</span>
+      <span className="theme-text-muted flex-shrink-0">{label}</span>
+      <span className="theme-text-secondary text-right">{value}</span>
     </div>
   );
 }

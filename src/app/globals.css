@@ -1,18 +1,27 @@
 /* ============================================================
    globals.css — Premium Design System WebGIS GeoAI Morowali
+   Supports DARK (default) + LIGHT mode via .light / .dark class
    ============================================================ */
 @import "tailwindcss";
 /* Note: Inter & JetBrains Mono diload via next/font di layout.tsx
    sebagai CSS variables --font-inter dan --font-jetbrains */
 
-/* ---- CSS Variables / Design Tokens ---- */
-:root {
+/* ---- CSS Variables / Design Tokens — DARK (default) ---- */
+:root,
+.dark {
   /* Core palette */
   --color-bg-base:       #020617;   /* slate-950 */
   --color-bg-elevated:   #0f172a;   /* slate-900 */
   --color-bg-card:       #0f172a;
+  --color-bg-surface:    rgba(15, 23, 42, 0.75);
+  --color-bg-surface-solid: #0f172a;
   --color-border:        #1e293b;   /* slate-800 */
   --color-border-subtle: #0f172a;
+  --color-text-primary:  #f1f5f9;
+  --color-text-secondary:#94a3b8;
+  --color-text-muted:    #64748b;
+  --color-text-dim:      #475569;
+  --color-text-faint:    #334155;
 
   /* Brand */
   --color-brand:         #f97316;   /* orange-500 */
@@ -45,9 +54,82 @@
   /* Shadows */
   --shadow-glow-brand: 0 0 20px rgba(249,115,22,.25), 0 0 60px rgba(249,115,22,.08);
   --shadow-panel: 0 25px 50px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.04);
+
+  /* Glass */
+  --glass-bg: rgba(15, 23, 42, 0.75);
+  --glass-bg-dark: rgba(2, 6, 23, 0.85);
+  --glass-border: rgba(255,255,255,0.06);
+  --glass-border-subtle: rgba(255,255,255,0.04);
+  --glass-highlight: rgba(255,255,255,.08);
+  --glass-card-gradient-from: rgba(15,23,42,0.9);
+  --glass-card-gradient-to: rgba(2,6,23,0.95);
+  --glass-card-inset: rgba(255,255,255,.06);
+
+  /* Scrollbar */
+  --scrollbar-thumb: #334155;
+  --scrollbar-thumb-hover: #475569;
+
+  /* Skeleton */
+  --skeleton-from: #1e293b;
+  --skeleton-mid: #334155;
+
+  /* Map controls override */
+  --map-ctrl-bg: rgba(10,15,35,.85);
+  --map-ctrl-border: rgba(255,255,255,.06);
+  --map-ctrl-btn-border: rgba(255,255,255,.04);
+  --map-ctrl-btn-color: #94a3b8;
+  --map-ctrl-btn-hover-bg: rgba(255,255,255,.08);
+  --map-popup-bg: rgba(10, 15, 35, 0.96);
+  --map-popup-tip: rgba(10,15,35,.96);
+  --map-scale-bg: rgba(10,15,35,.75);
 }
 
-/* ---- Base reset untuk full-viewport map ---- */
+/* ---- CSS Variables — LIGHT mode ---- */
+.light {
+  --color-bg-base:       #f8fafc;   /* slate-50 */
+  --color-bg-elevated:   #ffffff;
+  --color-bg-card:       #ffffff;
+  --color-bg-surface:    rgba(255, 255, 255, 0.85);
+  --color-bg-surface-solid: #ffffff;
+  --color-border:        #e2e8f0;   /* slate-200 */
+  --color-border-subtle: #f1f5f9;
+  --color-text-primary:  #0f172a;
+  --color-text-secondary:#475569;
+  --color-text-muted:    #64748b;
+  --color-text-dim:      #94a3b8;
+  --color-text-faint:    #cbd5e1;
+
+  --shadow-glow-brand: 0 0 20px rgba(249,115,22,.15), 0 0 40px rgba(249,115,22,.05);
+  --shadow-panel: 0 20px 40px rgba(0,0,0,.08), 0 0 0 1px rgba(0,0,0,.04);
+
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-bg-dark: rgba(248, 250, 252, 0.92);
+  --glass-border: rgba(0,0,0,0.08);
+  --glass-border-subtle: rgba(0,0,0,0.04);
+  --glass-highlight: rgba(0,0,0,.04);
+  --glass-card-gradient-from: rgba(255,255,255,0.95);
+  --glass-card-gradient-to: rgba(248,250,252,0.98);
+  --glass-card-inset: rgba(0,0,0,.03);
+
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+
+  --skeleton-from: #e2e8f0;
+  --skeleton-mid: #f1f5f9;
+
+  --map-ctrl-bg: rgba(255,255,255,.92);
+  --map-ctrl-border: rgba(0,0,0,.08);
+  --map-ctrl-btn-border: rgba(0,0,0,.06);
+  --map-ctrl-btn-color: #475569;
+  --map-ctrl-btn-hover-bg: rgba(0,0,0,.05);
+  --map-popup-bg: rgba(255, 255, 255, 0.97);
+  --map-popup-tip: rgba(255,255,255,.97);
+  --map-scale-bg: rgba(255,255,255,.85);
+}
+
+/* ============================================================
+   BASE RESET — Full-viewport map
+   ============================================================ */
 html, body, #__next {
   height: 100%;
   width: 100%;
@@ -57,10 +139,11 @@ html, body, #__next {
 body {
   font-family: var(--font-sans);
   background: var(--color-bg-base);
-  color: #f1f5f9;
+  color: var(--color-text-primary);
   font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ============================================================
@@ -123,37 +206,41 @@ body {
 }
 
 /* ============================================================
-   GLASS PANEL UTILITIES
+   GLASS PANEL UTILITIES — Theme-aware
    ============================================================ */
 
 .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
+  background: var(--glass-bg);
   backdrop-filter: var(--blur-glass);
   -webkit-backdrop-filter: var(--blur-glass);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-panel);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 .glass-panel-dark {
-  background: rgba(2, 6, 23, 0.85);
+  background: var(--glass-bg-dark);
   backdrop-filter: var(--blur-glass);
   -webkit-backdrop-filter: var(--blur-glass);
-  border: 1px solid rgba(255,255,255,0.04);
+  border: 1px solid var(--glass-border-subtle);
+  transition: background 0.3s, border-color 0.3s;
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(15,23,42,0.9) 0%, rgba(2,6,23,0.95) 100%);
+  background: linear-gradient(135deg, var(--glass-card-gradient-from) 0%, var(--glass-card-gradient-to) 100%);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: 0 8px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.06);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(0,0,0,.15), inset 0 1px 0 var(--glass-card-inset);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 /* Gradient border card */
 .glass-card-gradient {
   position: relative;
-  background: rgba(10,16,35,0.92);
+  background: var(--color-bg-surface-solid);
   backdrop-filter: blur(20px);
+  transition: background 0.3s;
 }
 .glass-card-gradient::before {
   content: '';
@@ -167,6 +254,9 @@ body {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
+}
+.light .glass-card-gradient::before {
+  background: linear-gradient(135deg, rgba(249,115,22,.2), rgba(6,182,212,.1), rgba(167,139,250,.15));
 }
 
 /* ============================================================
@@ -182,7 +272,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,.08) 0%, transparent 100%);
+  background: linear-gradient(180deg, var(--glass-highlight) 0%, transparent 100%);
   opacity: 0;
   transition: opacity 0.2s;
 }
@@ -227,7 +317,7 @@ body {
   transition: background 0.15s ease;
 }
 .layer-row:hover {
-  background: rgba(255,255,255,.02);
+  background: var(--glass-highlight);
 }
 
 .opacity-slider {
@@ -269,7 +359,7 @@ body {
 .timeline-track {
   height: 3px;
   border-radius: 2px;
-  background: linear-gradient(90deg, #334155, #475569);
+  background: linear-gradient(90deg, var(--color-border), var(--color-text-dim));
   position: relative;
   overflow: visible;
 }
@@ -344,45 +434,46 @@ body {
 }
 
 /* ============================================================
-   SCROLLBAR
+   SCROLLBAR — Theme-aware
    ============================================================ */
 
 .scrollbar-thin {
   scrollbar-width: thin;
-  scrollbar-color: #334155 transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 .scrollbar-thin::-webkit-scrollbar { width: 4px; }
 .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
 .scrollbar-thin::-webkit-scrollbar-thumb {
-  background-color: #334155;
+  background-color: var(--scrollbar-thumb);
   border-radius: 2px;
 }
-.scrollbar-thin::-webkit-scrollbar-thumb:hover { background-color: #475569; }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover { background-color: var(--scrollbar-thumb-hover); }
 
 /* ============================================================
-   MAPLIBRE OVERRIDES
+   MAPLIBRE OVERRIDES — Theme-aware
    ============================================================ */
 
 .maplibregl-ctrl-attrib,
 .maplibregl-ctrl-logo { display: none !important; }
 
 .maplibregl-popup-content {
-  background: rgba(10, 15, 35, 0.96) !important;
+  background: var(--map-popup-bg) !important;
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid var(--glass-border);
   border-radius: 16px;
   padding: 0 !important;
-  color: #f1f5f9;
-  box-shadow: 0 25px 50px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.04) !important;
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-panel) !important;
+  transition: background 0.3s, border-color 0.3s;
 }
 
 .maplibregl-popup-tip {
-  border-top-color: rgba(10,15,35,.96) !important;
-  border-bottom-color: rgba(10,15,35,.96) !important;
+  border-top-color: var(--map-popup-tip) !important;
+  border-bottom-color: var(--map-popup-tip) !important;
 }
 
 .maplibregl-popup-close-button {
-  color: #64748b;
+  color: var(--color-text-muted);
   font-size: 18px;
   right: 8px;
   top: 8px;
@@ -395,28 +486,29 @@ body {
   transition: all 0.15s;
 }
 .maplibregl-popup-close-button:hover {
-  background: rgba(255,255,255,.08);
-  color: #f1f5f9;
+  background: var(--glass-highlight);
+  color: var(--color-text-primary);
 }
 
 /* Custom nav controls */
 .maplibregl-ctrl-group {
-  background: rgba(10,15,35,.85) !important;
+  background: var(--map-ctrl-bg) !important;
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,.06) !important;
+  border: 1px solid var(--map-ctrl-border) !important;
   border-radius: 12px !important;
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,.4) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.15) !important;
+  transition: background 0.3s, border-color 0.3s;
 }
 .maplibregl-ctrl-group button {
   background: transparent !important;
-  color: #94a3b8 !important;
-  border-bottom: 1px solid rgba(255,255,255,.04) !important;
+  color: var(--map-ctrl-btn-color) !important;
+  border-bottom: 1px solid var(--map-ctrl-btn-border) !important;
   transition: background 0.15s, color 0.15s !important;
 }
 .maplibregl-ctrl-group button:hover {
-  background: rgba(255,255,255,.08) !important;
-  color: #f1f5f9 !important;
+  background: var(--map-ctrl-btn-hover-bg) !important;
+  color: var(--color-text-primary) !important;
 }
 .maplibregl-ctrl-group button:last-child {
   border-bottom: none !important;
@@ -424,15 +516,16 @@ body {
 
 /* Scale bar */
 .maplibregl-ctrl-scale {
-  background: rgba(10,15,35,.75) !important;
+  background: var(--map-scale-bg) !important;
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,.1) !important;
+  border: 1px solid var(--glass-border) !important;
   border-top: 2px solid #f97316 !important;
-  color: #94a3b8 !important;
+  color: var(--color-text-muted) !important;
   font-family: var(--font-mono) !important;
   font-size: 10px !important;
   padding: 2px 6px !important;
   border-radius: 4px !important;
+  transition: background 0.3s, border-color 0.3s;
 }
 
 /* ============================================================
@@ -445,18 +538,33 @@ body {
 .animate-float       { animation: float 3s ease-in-out infinite; }
 .animate-spin-slow   { animation: spin-slow 8s linear infinite; }
 .animate-shimmer {
-  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,.08) 50%, transparent 75%);
+  background: linear-gradient(90deg, transparent 25%, var(--glass-highlight) 50%, transparent 75%);
   background-size: 200% auto;
   animation: shimmer 2s linear infinite;
 }
 
 /* ============================================================
-   LOADING STATE SKELETON
+   LOADING STATE SKELETON — Theme-aware
    ============================================================ */
 
 .skeleton {
-  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background: linear-gradient(90deg, var(--skeleton-from) 25%, var(--skeleton-mid) 50%, var(--skeleton-from) 75%);
   background-size: 200% auto;
   animation: shimmer 1.5s linear infinite;
   border-radius: 4px;
 }
+
+/* ============================================================
+   THEME-AWARE UTILITY CLASSES
+   Used by components to adapt colors without hardcoding
+   ============================================================ */
+
+.theme-bg-base { background-color: var(--color-bg-base); transition: background-color 0.3s; }
+.theme-bg-elevated { background-color: var(--color-bg-elevated); transition: background-color 0.3s; }
+.theme-bg-card { background-color: var(--color-bg-card); transition: background-color 0.3s; }
+.theme-bg-surface { background: var(--color-bg-surface); transition: background 0.3s; }
+.theme-border { border-color: var(--color-border); transition: border-color 0.3s; }
+.theme-text { color: var(--color-text-primary); transition: color 0.3s; }
+.theme-text-secondary { color: var(--color-text-secondary); transition: color 0.3s; }
+.theme-text-muted { color: var(--color-text-muted); transition: color 0.3s; }
+.theme-text-dim { color: var(--color-text-dim); transition: color 0.3s; }
