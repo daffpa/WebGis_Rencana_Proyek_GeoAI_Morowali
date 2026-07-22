@@ -1,0 +1,17 @@
+===== Metrik Objek Perairan - Model Gabungan 2024+2025 =====
+Accuracy  : 0.7888
+Precision : 0.7734
+Recall    : 0.8319
+F1-score  : 0.8016
+Confusion Matrix: [[84, 29], [20, 99]]
+               precision    recall  f1-score   support
+
+    Darat (0)       0.81      0.74      0.77       113
+Air/Keruh (1)       0.77      0.83      0.80       119
+
+     accuracy                           0.79       232
+    macro avg       0.79      0.79      0.79       232
+ weighted avg       0.79      0.79      0.79       232
+
+
+Catatan: model dilatih dari data gabungan ground truth 2024+2025, diterapkan ke kedua tahun untuk klasifikasi. Threshold optimal (setelah tuning): 0.4600

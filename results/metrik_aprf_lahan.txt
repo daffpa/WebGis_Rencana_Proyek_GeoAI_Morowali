@@ -1,0 +1,18 @@
+METRIK EVALUASI MODEL - LAHAN TERBUKA
+==================================================
+
+Best Parameters: {'class_weight': 'balanced', 'max_depth': 20, 'min_samples_split': 2, 'n_estimators': 100}
+Best CV F1-Score: 0.917
+
+Testing Results:
+  Accuracy : 0.958
+  Precision: 0.982
+  Recall   : 0.931
+  F1-Score : 0.956
+
+Confusion Matrix:
+[[59  1]
+ [ 4 54]]
+
+False Positive (FP): 1
+False Negative (FN): 4

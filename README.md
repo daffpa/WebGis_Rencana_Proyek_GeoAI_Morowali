@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Proyek GeoAI Morowali: Deteksi Perubahan Lahan Tambang
 
-## Getting Started
+## 📌 Informasi Proyek
+- **Mata Kuliah:** Kapita Selekta / GeoAI
+- **Anggota Kelompok:** [Nama Anggota 1], [Nama Anggota 2], [Nama Anggota 3]
+- **Kota/Kabupaten:** Kabupaten Morowali, Sulawesi Tengah
+- **Objek Target:** Lahan Terbuka (akibat tambang) & Kekeruhan Air
+- **Deskripsi Singkat:** Proyek ini bertujuan untuk mendeteksi perubahan tutupan lahan dan kekeruhan air di Kabupaten Morowali menggunakan citra satelit Sentinel-2 (2024 vs 2025) dan algoritma *Random Forest Classifier*. Hasil deteksi disajikan dalam bentuk dashboard WebGIS interaktif.
 
-First, run the development server:
+## 📂 Struktur Repositori
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Repositori ini disusun berdasarkan ketentuan minimum proyek:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- `gee/` : Berisi script Google Earth Engine untuk tahap *preprocessing*, *sampling*, training model *Random Forest*, dan *export* hasil.
+- `webgis/` : Berisi *source code* aplikasi WebGIS interaktif yang dibangun menggunakan Next.js, MapLibre GL JS, dan Tailwind CSS.
+- `data/` : Berisi data spasial (GeoJSON) hasil klasifikasi (target 2024 & 2025, gain, loss). *Catatan: Untuk file berukuran besar, tautan unduhan disediakan di dalam folder ini.*
+- `results/` : Berisi ringkasan hasil evaluasi model (*Confusion Matrix*, nilai *Accuracy, Precision, Recall, F1-Score*).
+- `report/` : Berisi dokumen laporan akhir proyek (PDF).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Cara Membuka WebGIS (Lokal)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Jika Anda ingin menjalankan WebGIS ini secara lokal:
 
-## Learn More
+1. Pastikan Anda memiliki **Node.js** (versi 18+) terinstal.
+2. Buka terminal dan masuk ke folder `webgis`:
+   ```bash
+   cd webgis
+   ```
+3. Instal semua dependensi:
+   ```bash
+   npm install
+   ```
+4. Jalankan *development server*:
+   ```bash
+   npm run dev
+   ```
+5. Buka [http://localhost:3000](http://localhost:3000) di browser Anda.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔗 Tautan Penting
+- **WebGIS (Live):** [Tautan Deploy WebGIS Anda (misal Vercel)]
+- **Laporan Akhir (PDF):** [Tautan ke laporan PDF di folder report]
