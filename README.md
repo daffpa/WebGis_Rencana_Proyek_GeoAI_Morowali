@@ -37,5 +37,6 @@ Jika Anda ingin menjalankan WebGIS ini secara lokal:
 5. Buka [http://localhost:3000](http://localhost:3000) di browser Anda.
 
 ## 🔗 Tautan Penting
-- **WebGIS (Live):** [Tautan Deploy WebGIS Anda (misal Vercel)]
-- **Laporan Akhir (PDF):** [Tautan ke laporan PDF di folder report]
+- **WebGIS (Live):** [[https://web-gis-rencana-proyek-geo-ai-morow.vercel.app/](https://web-gis-rencana-proyek-geo-ai-morow.vercel.app/))]
+- **Laporan Akhir (PDF):** @laporan_akhir_proyek.md
+  
