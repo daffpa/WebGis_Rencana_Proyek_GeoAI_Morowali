@@ -89,12 +89,25 @@ export default function MapContainer() {
     });
   }, [is3D]);
 
-  // ---- Klik polygon ----
+  // ---- Helper: apakah feature adalah "background" (class=1) ----
+  const isBackgroundFeature = (props: Record<string, unknown> | null | undefined): boolean => {
+    if (!props) return false;
+    if (props.class === 1) return true;
+    if (typeof props.kategori === 'string' && props.kategori.toLowerCase() === 'background') return true;
+    return false;
+  };
+
+  // ---- Klik polygon (skip background) ----
   const onMapClick = useCallback(
     (event: MapLayerMouseEvent) => {
       const features = event.features;
       if (features && features.length > 0) {
         const f = features[0];
+        // Skip background features — tidak informatif
+        if (isBackgroundFeature(f.properties as Record<string, unknown>)) {
+          setSelectedFeature(null);
+          return;
+        }
         setSelectedFeature({
           type: 'Feature',
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -110,7 +123,7 @@ export default function MapContainer() {
     [setSelectedFeature]
   );
 
-  // ---- Hover tooltip + cursor coords ----
+  // ---- Hover tooltip + cursor coords (skip background) ----
   const onMouseMove = useCallback(
     (event: MapLayerMouseEvent) => {
       // Update koordinat cursor (dari event mouse, selalu tersedia)
@@ -118,9 +131,15 @@ export default function MapContainer() {
 
       const features = event.features;
       if (features && features.length > 0) {
+        const f = features[0];
+        // Skip background features — jangan tampilkan tooltip "Background"
+        if (isBackgroundFeature(f.properties as Record<string, unknown>)) {
+          setHoverInfo(null);
+          return;
+        }
         setHoverInfo({
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          feature: { type: 'Feature', properties: features[0].properties as any, geometry: features[0].geometry as any },
+          feature: { type: 'Feature', properties: f.properties as any, geometry: f.geometry as any },
           x: event.point.x,
           y: event.point.y,
         });
